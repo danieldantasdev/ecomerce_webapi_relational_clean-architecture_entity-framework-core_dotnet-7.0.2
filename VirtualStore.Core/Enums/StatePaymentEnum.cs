@@ -1,6 +1,6 @@
 namespace VirtualStore.Core.Enums;
 
-public enum EstadoPagamentoEnum
+public enum StatePaymentEnum
 {
     CONCLUDED,
     CANCELED,

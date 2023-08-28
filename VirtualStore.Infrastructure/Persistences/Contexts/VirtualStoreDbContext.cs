@@ -7,17 +7,17 @@ namespace VirtualStore.Infrastructure.Persisntences.Context;
 
 public class VirtualStoreDbContext : DbContext
 {
-    public DbSet<Categoria> Categorias { get; set; }
-    public DbSet<Produto> Produtos { get; set; }
-    public DbSet<Cidade> Cidades { get; set; }
-    public DbSet<Cliente> Clientes { get; set; }
-    public DbSet<Endereco> Enderecos { get; set; }
-    public DbSet<Estado> Estados { get; set; }
-    public DbSet<Pedido> Pedidos { get; set; }
-    public DbSet<ItemPedido> ItemPedidos { get; set; }
-    public DbSet<Pagamento> Pagamentos { get; set; }
-    public DbSet<PagamentoComBoleto> PagamentoComBoletos { get; set; }
-    public DbSet<PagamentoComCartao> PagamentoComCartoes { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<City> Cities { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Address> Adresses { get; set; }
+    public DbSet<State> States { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Payment> Payments { get; set; }
+    public DbSet<PaymentWithSlip> PaymentWithSlips { get; set; }
+    public DbSet<PaymentWithCard> PaymentWithCards { get; set; }
 
     public VirtualStoreDbContext(DbContextOptions<VirtualStoreDbContext> dbContextOptions) : base(dbContextOptions)
     {
@@ -25,17 +25,17 @@ public class VirtualStoreDbContext : DbContext
 
     void DefineNameTables(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Categoria>().ToTable("categoria");
-        modelBuilder.Entity<Produto>().ToTable("produto");
-        modelBuilder.Entity<ItemPedido>().ToTable("item_pedido");
-        modelBuilder.Entity<Pedido>().ToTable("pedido");
-        modelBuilder.Entity<Pagamento>().ToTable("pagamento");
-        modelBuilder.Entity<PagamentoComBoleto>().ToTable("pagamento_com_boleto");
-        modelBuilder.Entity<PagamentoComCartao>().ToTable("pagamento_com_cartao");
-        modelBuilder.Entity<Cliente>().ToTable("cliente");
-        modelBuilder.Entity<Estado>().ToTable("estado");
-        modelBuilder.Entity<Cidade>().ToTable("cidade");
-        modelBuilder.Entity<Endereco>().ToTable("endereco");
+        modelBuilder.Entity<Category>().ToTable("category");
+        modelBuilder.Entity<Product>().ToTable("product");
+        modelBuilder.Entity<Order>().ToTable("order");
+        modelBuilder.Entity<OrderItem>().ToTable("order_item");
+        modelBuilder.Entity<Payment>().ToTable("payment");
+        modelBuilder.Entity<PaymentWithSlip>().ToTable("payment_with_slip");
+        modelBuilder.Entity<PaymentWithCard>().ToTable("payment_with_card");
+        modelBuilder.Entity<Client>().ToTable("client");
+        modelBuilder.Entity<State>().ToTable("state");
+        modelBuilder.Entity<City>().ToTable("city");
+        modelBuilder.Entity<Address>().ToTable("address");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,100 +44,100 @@ public class VirtualStoreDbContext : DbContext
         DefineNameTables(modelBuilder);
 
         /*
-         * 1 Categoria tem 1 ou * produtos
-         * 1 Produto é de * Categorias
+         * 1 Category tem 1 ou * produtos
+         * 1 Product é de * Categories
          */
-        modelBuilder.Entity<Categoria>()
-            .HasMany(c => c.Produtos)
-            .WithMany(p => p.Categorias)
-            .UsingEntity(j => j.ToTable("categoria_produto"));
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)
+            .WithMany(p => p.Categories)
+            .UsingEntity(j => j.ToTable("category_product"));
 
         /*
-         * 1 Produto tem * Item de Pedido
-         * 1 Item de Pedido é de 1 Produto
+         * 1 Product tem * Item de Order
+         * 1 Item de Order é de 1 Product
          */
-        modelBuilder.Entity<Produto>()
-            .HasMany(p => p.Itens)
-            .WithOne(i => i.Produto)
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.OrderItens)
+            .WithOne(i => i.Product)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
-         * 1 Pedido tem * Item de Pedido
-         * 1 Item de Pedido é de 1 Pedido
+         * 1 Order tem * Item de Order
+         * 1 Item de Order é de 1 Order
          */
-        modelBuilder.Entity<Pedido>()
+        modelBuilder.Entity<Order>()
             .HasMany(p => p.Itens)
-            .WithOne(ip => ip.Pedido)
+            .WithOne(ip => ip.Order)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
-         * Tabela de associação entre Pedido e Produto
+         * Tabela de associação entre Order e Product
          */
-        modelBuilder.Entity<ItemPedido>()
-            .HasKey(ip => new { ip.PedidoId, ip.ProdutoId });
+        modelBuilder.Entity<OrderItem>()
+            .HasKey(ip => new { PedidoId = ip.OrderId, ProdutoId = ip.ProductId });
 
         /*
-         * 1 Pedido tem 1 Pagamento
-         * 1 Pagamento é de 1 Pedido
+         * 1 Order tem 1 Payment
+         * 1 Payment é de 1 Order
          */
-        modelBuilder.Entity<Pagamento>().HasKey(pa => pa.PedidoId);
+        modelBuilder.Entity<Payment>().HasKey(pa => pa.OrderId);
 
-        modelBuilder.Entity<Pedido>()
-            .HasOne(p => p.Pagamento)
-            .WithOne(pa => pa.Pedido)
-            .HasForeignKey<Pagamento>(p => p.PedidoId)
+        modelBuilder.Entity<Order>()
+            .HasOne(p => p.Payment)
+            .WithOne(pa => pa.Order)
+            .HasForeignKey<Payment>(p => p.OrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
          * Separando tabela por tipo da subclasse
          */
-        modelBuilder.Entity<Pagamento>()
+        modelBuilder.Entity<Payment>()
             .UseTptMappingStrategy();
-        // .UseTptMappingStrategy().HasKey(p => p.PedidoId);
-        modelBuilder.Entity<PagamentoComCartao>()
+        // .UseTptMappingStrategy().HasKey(p => p.OrderId);
+        modelBuilder.Entity<PaymentWithCard>()
             .UseTptMappingStrategy();
-        // .UseTptMappingStrategy().HasKey(p => p.PedidoId);
-        modelBuilder.Entity<PagamentoComBoleto>()
+        // .UseTptMappingStrategy().HasKey(p => p.OrderId);
+        modelBuilder.Entity<PaymentWithSlip>()
             .UseTptMappingStrategy();
-        // .UseTptMappingStrategy().HasKey(p => p.PedidoId);
+        // .UseTptMappingStrategy().HasKey(p => p.OrderId);
 
         /*
-         * 1 Pedido tem um Cliente
-         * 1 Cliente é de 1 ou * Pedidos
+         * 1 Order tem um Client
+         * 1 Client é de 1 ou * Orders
          */
-        modelBuilder.Entity<Pedido>()
-            .HasOne(p => p.Cliente)
-            .WithMany(c => c.Pedidos)
-            .HasForeignKey(p => p.ClienteId)
+        modelBuilder.Entity<Order>()
+            .HasOne(p => p.Client)
+            .WithMany(c => c.Orders)
+            .HasForeignKey(p => p.ClientId)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
          * Associação Unidirecional
-         * 1 Pedido tem um EnderecoEntrega
-         * 1 Endereco é de 1 Pedido
+         * 1 Order tem um DeliveryAddress
+         * 1 Address é de 1 Order
          */
-        modelBuilder.Entity<Pedido>()
-            .HasOne(p => p.EnderecoEntrega)
+        modelBuilder.Entity<Order>()
+            .HasOne(p => p.DeliveryAddress)
             .WithOne()
-            .HasForeignKey<Pedido>(p => p.EnderecoEntregaId)
+            .HasForeignKey<Order>(p => p.DeliveryAddressId)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
-         * 1 Cliente tem 1 ou * Pedidos
-         * 1 Pedido é de 1 Cliente
+         * 1 Client tem 1 ou * Orders
+         * 1 Order é de 1 Client
          */
-        modelBuilder.Entity<Cliente>()
-            .HasMany(c => c.Pedidos)
-            .WithOne(e => e.Cliente)
+        modelBuilder.Entity<Client>()
+            .HasMany(c => c.Orders)
+            .WithOne(e => e.Client)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
-         * 1 Cliente tem 1 ou * Enderecos
-         * 1 Endereco é de 1 Cliente
+         * 1 Client tem 1 ou * Adresses
+         * 1 Address é de 1 Client
          */
-        modelBuilder.Entity<Cliente>()
-            .HasMany(c => c.Enderecos)
-            .WithOne(e => e.Cliente)
+        modelBuilder.Entity<Client>()
+            .HasMany(c => c.Adresses)
+            .WithOne(e => e.Client)
             .OnDelete(DeleteBehavior.Restrict);
 
         /*
@@ -145,33 +145,33 @@ public class VirtualStoreDbContext : DbContext
          * Associação Unidirecional
          * O Ef Core gerencia a chave primária de uma entidade fraca,
          * criando como chave primária a mesma da tabela proprietária
-         * 1 Cliente tem 1 ou * Telefones
+         * 1 Client tem 1 ou * Phones
          */
-        modelBuilder.Entity<Cliente>()
-            .OwnsMany(c => c.Telefones, telefone =>
+        modelBuilder.Entity<Client>()
+            .OwnsMany(c => c.Phones, phone =>
             {
-                telefone.ToTable("telefone");
-                telefone.WithOwner().HasForeignKey("ClientId");
-                telefone.Property<int>("ClientId");
-                telefone.HasKey("ClientId");
+                phone.ToTable("phone");
+                phone.WithOwner().HasForeignKey("client_id");
+                phone.Property<int>("client_id");
+                phone.HasKey("client_id");
             });
 
         /*
          * Associação Unidirecional
-         * 1 Endereco tem 1 Cidade
+         * 1 Address tem 1 City
          */
-        modelBuilder.Entity<Endereco>()
-            .HasOne(e => e.Cidade)
+        modelBuilder.Entity<Address>()
+            .HasOne(e => e.City)
             .WithOne()
-            .HasForeignKey<Endereco>(e => e.CidadeId)
+            .HasForeignKey<Address>(e => e.CityId)
             .OnDelete(DeleteBehavior.Restrict);
         /*
-         * 1 Cidade tem 1 Estado
-         * 1 Estado pode ter 1 ou * Cidades
+         * 1 City tem 1 State
+         * 1 State pode ter 1 ou * Cities
          */
-        modelBuilder.Entity<Cidade>()
-            .HasOne(c => c.Estado)
-            .WithMany(e => e.Cidades)
+        modelBuilder.Entity<City>()
+            .HasOne(c => c.State)
+            .WithMany(e => e.Cities)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

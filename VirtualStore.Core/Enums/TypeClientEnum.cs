@@ -1,6 +1,6 @@
 namespace VirtualStore.Core.Enums;
 
-public enum TipoClienteEnum
+public enum TypeClientEnum
 {
     PHYSICAL_PERSON,
     LEGAL_PERSON

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualStore.Infrastructure.Persisntences.Context;
 
@@ -11,9 +12,11 @@ using VirtualStore.Infrastructure.Persisntences.Context;
 namespace VirtualStore.Infrastructure.Persistences.Migrations
 {
     [DbContext(typeof(VirtualStoreDbContext))]
-    partial class VirtualStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230828024255_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,7 +381,7 @@ namespace VirtualStore.Infrastructure.Persistences.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Product", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Produto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -508,7 +511,7 @@ namespace VirtualStore.Infrastructure.Persistences.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VirtualStore.Core.Entities.Product", null)
+                    b.HasOne("VirtualStore.Core.Entities.Produto", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -605,7 +608,7 @@ namespace VirtualStore.Infrastructure.Persistences.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VirtualStore.Core.Entities.Product", "Product")
+                    b.HasOne("VirtualStore.Core.Entities.Produto", "Product")
                         .WithMany("OrderItens")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -660,7 +663,7 @@ namespace VirtualStore.Infrastructure.Persistences.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Product", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Produto", b =>
                 {
                     b.Navigation("OrderItens");
                 });
