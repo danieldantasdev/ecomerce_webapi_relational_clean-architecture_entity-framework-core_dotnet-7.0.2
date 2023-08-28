@@ -22,423 +22,652 @@ namespace VirtualStore.Infrastructure.Persistences.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoriaProduto", b =>
+            modelBuilder.Entity("CategoryProduto", b =>
                 {
-                    b.Property<int>("CategoriasId")
+                    b.Property<int>("CategoriesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProdutosId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoriasId", "ProdutosId");
+                    b.HasKey("CategoriesId", "ProductsId");
 
-                    b.HasIndex("ProdutosId");
+                    b.HasIndex("ProductsId");
 
-                    b.ToTable("categoria_produto", (string)null);
+                    b.ToTable("category_product", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Categoria", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("categoria", (string)null);
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.Cidade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EstadoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EstadoId");
-
-                    b.ToTable("cidade", (string)null);
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CpfOuCnpj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("cliente", (string)null);
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.Endereco", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Bairro")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cep")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cep");
 
-                    b.Property<int>("CidadeId")
-                        .HasColumnType("int");
+                    b.Property<int>("CityId")
+                        .HasColumnType("int")
+                        .HasColumnName("city_id");
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int")
+                        .HasColumnName("client_id");
 
-                    b.Property<string>("Complemento")
+                    b.Property<string>("Complement")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("complement");
 
-                    b.Property<string>("Logradouro")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
 
-                    b.Property<string>("Numero")
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("neighborhood");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("number");
+
+                    b.Property<string>("PublicPlace")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("public_place");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CidadeId")
+                    b.HasIndex("CityId")
                         .IsUnique();
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("ClientId");
 
-                    b.ToTable("endereco", (string)null);
+                    b.ToTable("address", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Estado", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
 
                     b.HasKey("Id");
 
-                    b.ToTable("estado", (string)null);
+                    b.ToTable("category", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.ItemPedido", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.City", b =>
                 {
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Desconto")
-                        .HasColumnType("float");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
 
-                    b.Property<double>("Preco")
-                        .HasColumnType("float");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
 
-                    b.HasKey("PedidoId", "ProdutoId");
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
 
-                    b.HasIndex("ProdutoId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
 
-                    b.ToTable("item_pedido", (string)null);
+                    b.Property<int>("StateId")
+                        .HasColumnType("int")
+                        .HasColumnName("state_id");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("city", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Pagamento", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Client", b =>
                 {
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasKey("PedidoId");
+                    b.Property<string>("CpfOrCnpj")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cpf_or_cnpj");
 
-                    b.ToTable("pagamento", (string)null);
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("TypeClient")
+                        .HasColumnType("int")
+                        .HasColumnName("type_client");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("client", (string)null);
+                });
+
+            modelBuilder.Entity("VirtualStore.Core.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int")
+                        .HasColumnName("client_id");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<int>("DeliveryAddressId")
+                        .HasColumnType("int")
+                        .HasColumnName("delivery_address_id");
+
+                    b.Property<DateTime>("Instant")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("instant");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("DeliveryAddressId")
+                        .IsUnique();
+
+                    b.ToTable("order", (string)null);
+                });
+
+            modelBuilder.Entity("VirtualStore.Core.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnName("product_id");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("float")
+                        .HasColumnName("discount");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float")
+                        .HasColumnName("price");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("order_item", (string)null);
+                });
+
+            modelBuilder.Entity("VirtualStore.Core.Entities.Payment", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("StatePayment")
+                        .HasColumnType("int")
+                        .HasColumnName("state_payment");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("payment", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EnderecoEntregaId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Instante")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("EnderecoEntregaId")
-                        .IsUnique();
-
-                    b.ToTable("pedido", (string)null);
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.Produto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nome")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
 
-                    b.Property<double>("Preco")
-                        .HasColumnType("float");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float")
+                        .HasColumnName("price");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
 
                     b.HasKey("Id");
 
-                    b.ToTable("produto", (string)null);
+                    b.ToTable("product", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.PagamentoComBoleto", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.State", b =>
                 {
-                    b.HasBaseType("VirtualStore.Core.Entities.Pagamento");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime>("DataExpiracao")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataPagamento")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("created_by");
 
-                    b.ToTable("pagamento_com_boleto", (string)null);
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeleteBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("delete_by");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delete_on");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("UpdateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("update_by");
+
+                    b.Property<DateTime?>("UpdateOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("update_on");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("state", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.PagamentoComCartao", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.PaymentWithCard", b =>
                 {
-                    b.HasBaseType("VirtualStore.Core.Entities.Pagamento");
+                    b.HasBaseType("VirtualStore.Core.Entities.Payment");
 
-                    b.Property<int>("NumeroDeParcelas")
-                        .HasColumnType("int");
+                    b.Property<int>("NumberOfParcels")
+                        .HasColumnType("int")
+                        .HasColumnName("number_of_parcels");
 
-                    b.ToTable("pagamento_com_cartao", (string)null);
+                    b.ToTable("payment_with_card", (string)null);
                 });
 
-            modelBuilder.Entity("CategoriaProduto", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.PaymentWithSlip", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Categoria", null)
+                    b.HasBaseType("VirtualStore.Core.Entities.Payment");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("expiration_date");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("payment_date");
+
+                    b.ToTable("payment_with_slip", (string)null);
+                });
+
+            modelBuilder.Entity("CategoryProduto", b =>
+                {
+                    b.HasOne("VirtualStore.Core.Entities.Category", null)
                         .WithMany()
-                        .HasForeignKey("CategoriasId")
+                        .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VirtualStore.Core.Entities.Produto", null)
+                    b.HasOne("VirtualStore.Core.Entities.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProdutosId")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Cidade", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Address", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Estado", "Estado")
-                        .WithMany("Cidades")
-                        .HasForeignKey("EstadoId")
+                    b.HasOne("VirtualStore.Core.Entities.City", "City")
+                        .WithOne()
+                        .HasForeignKey("VirtualStore.Core.Entities.Address", "CityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Estado");
+                    b.HasOne("VirtualStore.Core.Entities.Client", "Client")
+                        .WithMany("Adresses")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Cliente", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.City", b =>
                 {
-                    b.OwnsMany("VirtualStore.Core.Entities.Telefone", "Telefones", b1 =>
+                    b.HasOne("VirtualStore.Core.Entities.State", "State")
+                        .WithMany("Cities")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("State");
+                });
+
+            modelBuilder.Entity("VirtualStore.Core.Entities.Client", b =>
+                {
+                    b.OwnsMany("VirtualStore.Core.Entities.Phone", "Phones", b1 =>
                         {
-                            b1.Property<int>("ClientId")
+                            b1.Property<int>("client_id")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("CodigoArea")
+                            b1.Property<string>("CodeArea")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("code_area");
 
-                            b1.Property<string>("CodigoPais")
+                            b1.Property<string>("CodeCountry")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("code_country");
 
-                            b1.Property<string>("Numero")
+                            b1.Property<string>("Number")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("number");
 
-                            b1.HasKey("ClientId");
+                            b1.HasKey("client_id");
 
-                            b1.ToTable("telefone", (string)null);
+                            b1.ToTable("phone", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("ClientId");
+                                .HasForeignKey("client_id");
                         });
 
-                    b.Navigation("Telefones");
+                    b.Navigation("Phones");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Endereco", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Order", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Cidade", "Cidade")
+                    b.HasOne("VirtualStore.Core.Entities.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VirtualStore.Core.Entities.Address", "DeliveryAddress")
                         .WithOne()
-                        .HasForeignKey("VirtualStore.Core.Entities.Endereco", "CidadeId")
+                        .HasForeignKey("VirtualStore.Core.Entities.Order", "DeliveryAddressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VirtualStore.Core.Entities.Cliente", "Cliente")
-                        .WithMany("Enderecos")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Client");
 
-                    b.Navigation("Cidade");
-
-                    b.Navigation("Cliente");
+                    b.Navigation("DeliveryAddress");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.ItemPedido", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.OrderItem", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Pedido", "Pedido")
+                    b.HasOne("VirtualStore.Core.Entities.Order", "Order")
                         .WithMany("Itens")
-                        .HasForeignKey("PedidoId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VirtualStore.Core.Entities.Produto", "Produto")
-                        .WithMany("Itens")
-                        .HasForeignKey("ProdutoId")
+                    b.HasOne("VirtualStore.Core.Entities.Product", "Product")
+                        .WithMany("OrderItens")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Pedido");
+                    b.Navigation("Order");
 
-                    b.Navigation("Produto");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Pagamento", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Payment", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Pedido", "Pedido")
-                        .WithOne("Pagamento")
-                        .HasForeignKey("VirtualStore.Core.Entities.Pagamento", "PedidoId")
+                    b.HasOne("VirtualStore.Core.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("VirtualStore.Core.Entities.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Pedido");
+                    b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.PaymentWithCard", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Cliente", "Cliente")
-                        .WithMany("Pedidos")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VirtualStore.Core.Entities.Endereco", "EnderecoEntrega")
+                    b.HasOne("VirtualStore.Core.Entities.Payment", null)
                         .WithOne()
-                        .HasForeignKey("VirtualStore.Core.Entities.Pedido", "EnderecoEntregaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("EnderecoEntrega");
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.PagamentoComBoleto", b =>
-                {
-                    b.HasOne("VirtualStore.Core.Entities.Pagamento", null)
-                        .WithOne()
-                        .HasForeignKey("VirtualStore.Core.Entities.PagamentoComBoleto", "PedidoId")
+                        .HasForeignKey("VirtualStore.Core.Entities.PaymentWithCard", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.PagamentoComCartao", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.PaymentWithSlip", b =>
                 {
-                    b.HasOne("VirtualStore.Core.Entities.Pagamento", null)
+                    b.HasOne("VirtualStore.Core.Entities.Payment", null)
                         .WithOne()
-                        .HasForeignKey("VirtualStore.Core.Entities.PagamentoComCartao", "PedidoId")
+                        .HasForeignKey("VirtualStore.Core.Entities.PaymentWithSlip", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Cliente", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Client", b =>
                 {
-                    b.Navigation("Enderecos");
+                    b.Navigation("Adresses");
 
-                    b.Navigation("Pedidos");
+                    b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Estado", b =>
-                {
-                    b.Navigation("Cidades");
-                });
-
-            modelBuilder.Entity("VirtualStore.Core.Entities.Pedido", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Order", b =>
                 {
                     b.Navigation("Itens");
 
-                    b.Navigation("Pagamento")
+                    b.Navigation("Payment")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualStore.Core.Entities.Produto", b =>
+            modelBuilder.Entity("VirtualStore.Core.Entities.Product", b =>
                 {
-                    b.Navigation("Itens");
+                    b.Navigation("OrderItens");
+                });
+
+            modelBuilder.Entity("VirtualStore.Core.Entities.State", b =>
+                {
+                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }
